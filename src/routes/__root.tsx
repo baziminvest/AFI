@@ -11,6 +11,10 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { Shell } from "@/components/afi/shell";
+import { WorkspaceProvider } from "@/components/afi/workspace";
+import { Toaster } from "@/components/ui/sonner";
+import { useLocation } from "@tanstack/react-router";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -81,11 +85,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "AFI — Adaptive Forex Intelligence" },
+      {
+        name: "description",
+        content: "Signals-only Forex and Gold market research and adaptive intelligence.",
+      },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "AFI — Adaptive Forex Intelligence" },
+      {
+        property: "og:description",
+        content: "Signals-only Forex and Gold market research and adaptive intelligence.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
@@ -96,6 +106,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;650;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -120,11 +134,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { pathname } = useLocation();
+  const isAuth = pathname === "/auth" || pathname === "/reset-password";
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <WorkspaceProvider>
+        {isAuth ? (
+          <Outlet />
+        ) : (
+          <Shell>
+            <Outlet />
+          </Shell>
+        )}
+        <Toaster />
+      </WorkspaceProvider>
     </QueryClientProvider>
   );
 }

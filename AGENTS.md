@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,4 +28,14 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
+
+## AFI architecture
+
+- Keep leaf route metadata and page entry points in TanStack routes; shared terminal views live under src/components/afi to preserve consistent navigation.
+- Historical imports use one security-invoker database RPC so metadata and bars commit atomically under owner-scoped RLS.
+- Feature generation and learning run only in the independent Python service because browser and Worker processes cannot host persistent Python workloads.
+- Forward authenticated bearer requests only to the configured learning service; both services validate authorization without client-controlled roles.
+- Python candidate artifacts use single-instance durable SQLite until a shared PostgreSQL adapter exists; require a persistent volume to avoid data loss.
+- MetaTrader integrations stay read-only and separately sourced; expose no order-placement functions.

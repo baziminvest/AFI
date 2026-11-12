@@ -10,33 +10,193 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BacktestingRouteImport } from './routes/backtesting'
+import { Route as IntelligenceRouteImport } from './routes/intelligence'
+import { Route as LearningLabRouteImport } from './routes/learning-lab'
+import { Route as MarketsRouteImport } from './routes/markets'
+import { Route as Mt4SimulatorRouteImport } from './routes/mt4-simulator'
+import { Route as Mt5IntegrationRouteImport } from './routes/mt5-integration'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RiskManagementRouteImport } from './routes/risk-management'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignalsRouteImport } from './routes/signals'
+import { Route as StrategiesRouteImport } from './routes/strategies'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BacktestingRoute = BacktestingRouteImport.update({
+  id: '/backtesting',
+  path: '/backtesting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntelligenceRoute = IntelligenceRouteImport.update({
+  id: '/intelligence',
+  path: '/intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningLabRoute = LearningLabRouteImport.update({
+  id: '/learning-lab',
+  path: '/learning-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsRoute = MarketsRouteImport.update({
+  id: '/markets',
+  path: '/markets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Mt4SimulatorRoute = Mt4SimulatorRouteImport.update({
+  id: '/mt4-simulator',
+  path: '/mt4-simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Mt5IntegrationRoute = Mt5IntegrationRouteImport.update({
+  id: '/mt5-integration',
+  path: '/mt5-integration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiskManagementRoute = RiskManagementRouteImport.update({
+  id: '/risk-management',
+  path: '/risk-management',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignalsRoute = SignalsRouteImport.update({
+  id: '/signals',
+  path: '/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StrategiesRoute = StrategiesRouteImport.update({
+  id: '/strategies',
+  path: '/strategies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/backtesting': typeof BacktestingRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/learning-lab': typeof LearningLabRoute
+  '/markets': typeof MarketsRoute
+  '/mt4-simulator': typeof Mt4SimulatorRoute
+  '/mt5-integration': typeof Mt5IntegrationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/risk-management': typeof RiskManagementRoute
+  '/settings': typeof SettingsRoute
+  '/signals': typeof SignalsRoute
+  '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/backtesting': typeof BacktestingRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/learning-lab': typeof LearningLabRoute
+  '/markets': typeof MarketsRoute
+  '/mt4-simulator': typeof Mt4SimulatorRoute
+  '/mt5-integration': typeof Mt5IntegrationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/risk-management': typeof RiskManagementRoute
+  '/settings': typeof SettingsRoute
+  '/signals': typeof SignalsRoute
+  '/strategies': typeof StrategiesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/backtesting': typeof BacktestingRoute
+  '/intelligence': typeof IntelligenceRoute
+  '/learning-lab': typeof LearningLabRoute
+  '/markets': typeof MarketsRoute
+  '/mt4-simulator': typeof Mt4SimulatorRoute
+  '/mt5-integration': typeof Mt5IntegrationRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/risk-management': typeof RiskManagementRoute
+  '/settings': typeof SettingsRoute
+  '/signals': typeof SignalsRoute
+  '/strategies': typeof StrategiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/backtesting'
+    | '/intelligence'
+    | '/learning-lab'
+    | '/markets'
+    | '/mt4-simulator'
+    | '/mt5-integration'
+    | '/reset-password'
+    | '/risk-management'
+    | '/settings'
+    | '/signals'
+    | '/strategies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/backtesting'
+    | '/intelligence'
+    | '/learning-lab'
+    | '/markets'
+    | '/mt4-simulator'
+    | '/mt5-integration'
+    | '/reset-password'
+    | '/risk-management'
+    | '/settings'
+    | '/signals'
+    | '/strategies'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/backtesting'
+    | '/intelligence'
+    | '/learning-lab'
+    | '/markets'
+    | '/mt4-simulator'
+    | '/mt5-integration'
+    | '/reset-password'
+    | '/risk-management'
+    | '/settings'
+    | '/signals'
+    | '/strategies'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  BacktestingRoute: typeof BacktestingRoute
+  IntelligenceRoute: typeof IntelligenceRoute
+  LearningLabRoute: typeof LearningLabRoute
+  MarketsRoute: typeof MarketsRoute
+  Mt4SimulatorRoute: typeof Mt4SimulatorRoute
+  Mt5IntegrationRoute: typeof Mt5IntegrationRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  RiskManagementRoute: typeof RiskManagementRoute
+  SettingsRoute: typeof SettingsRoute
+  SignalsRoute: typeof SignalsRoute
+  StrategiesRoute: typeof StrategiesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +208,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/backtesting': {
+      id: '/backtesting'
+      path: '/backtesting'
+      fullPath: '/backtesting'
+      preLoaderRoute: typeof BacktestingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intelligence': {
+      id: '/intelligence'
+      path: '/intelligence'
+      fullPath: '/intelligence'
+      preLoaderRoute: typeof IntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning-lab': {
+      id: '/learning-lab'
+      path: '/learning-lab'
+      fullPath: '/learning-lab'
+      preLoaderRoute: typeof LearningLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/markets': {
+      id: '/markets'
+      path: '/markets'
+      fullPath: '/markets'
+      preLoaderRoute: typeof MarketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mt4-simulator': {
+      id: '/mt4-simulator'
+      path: '/mt4-simulator'
+      fullPath: '/mt4-simulator'
+      preLoaderRoute: typeof Mt4SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mt5-integration': {
+      id: '/mt5-integration'
+      path: '/mt5-integration'
+      fullPath: '/mt5-integration'
+      preLoaderRoute: typeof Mt5IntegrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/risk-management': {
+      id: '/risk-management'
+      path: '/risk-management'
+      fullPath: '/risk-management'
+      preLoaderRoute: typeof RiskManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signals': {
+      id: '/signals'
+      path: '/signals'
+      fullPath: '/signals'
+      preLoaderRoute: typeof SignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/strategies': {
+      id: '/strategies'
+      path: '/strategies'
+      fullPath: '/strategies'
+      preLoaderRoute: typeof StrategiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  BacktestingRoute: BacktestingRoute,
+  IntelligenceRoute: IntelligenceRoute,
+  LearningLabRoute: LearningLabRoute,
+  MarketsRoute: MarketsRoute,
+  Mt4SimulatorRoute: Mt4SimulatorRoute,
+  Mt5IntegrationRoute: Mt5IntegrationRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  RiskManagementRoute: RiskManagementRoute,
+  SettingsRoute: SettingsRoute,
+  SignalsRoute: SignalsRoute,
+  StrategiesRoute: StrategiesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
