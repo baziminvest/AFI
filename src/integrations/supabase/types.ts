@@ -329,6 +329,54 @@ export type Database = {
         }
         Relationships: []
       }
+      investor_profiles: {
+        Row: {
+          base_currency: string
+          experience: string
+          horizon_years: number
+          income_required: boolean
+          initial_capital: number
+          liquidity_need: string
+          objective: string
+          preferred_assets: string[]
+          restrictions: string
+          risk_capacity: number
+          risk_tolerance: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          base_currency?: string
+          experience?: string
+          horizon_years?: number
+          income_required?: boolean
+          initial_capital?: number
+          liquidity_need?: string
+          objective?: string
+          preferred_assets?: string[]
+          restrictions?: string
+          risk_capacity?: number
+          risk_tolerance?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          base_currency?: string
+          experience?: string
+          horizon_years?: number
+          income_required?: boolean
+          initial_capital?: number
+          liquidity_need?: string
+          objective?: string
+          preferred_assets?: string[]
+          restrictions?: string
+          risk_capacity?: number
+          risk_tolerance?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       market_bars: {
         Row: {
           close: number
@@ -766,6 +814,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      paper_portfolios: {
+        Row: {
+          base_currency: string
+          cash_balance: number
+          created_at: string
+          id: string
+          name: string
+          risk_profile: number
+          simulation_started: boolean
+          starting_cash: number
+          user_id: string
+        }
+        Insert: {
+          base_currency?: string
+          cash_balance?: number
+          created_at?: string
+          id?: string
+          name?: string
+          risk_profile?: number
+          simulation_started?: boolean
+          starting_cash?: number
+          user_id: string
+        }
+        Update: {
+          base_currency?: string
+          cash_balance?: number
+          created_at?: string
+          id?: string
+          name?: string
+          risk_profile?: number
+          simulation_started?: boolean
+          starting_cash?: number
+          user_id?: string
+        }
+        Relationships: []
       }
       pattern_events: {
         Row: {

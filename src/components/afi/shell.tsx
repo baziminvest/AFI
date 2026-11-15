@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import {
+  Wallet,
   Activity,
   LayoutDashboard,
   ChartNoAxesCombined,
@@ -30,6 +31,7 @@ export const navigation = [
   { name: "Intelligence", path: "/intelligence", icon: BrainCircuit },
   { name: "Signals", path: "/signals", icon: Radio },
   { name: "Strategies", path: "/strategies", icon: Layers3 },
+  { name: "Portfolio", path: "/portfolio", icon: Wallet },
   { name: "Learning Lab", path: "/learning-lab", icon: FlaskConical },
   { name: "Backtesting", path: "/backtesting", icon: History },
   { name: "MT4 Simulator", path: "/mt4-simulator", icon: Monitor },
@@ -88,7 +90,7 @@ export function Shell({ children }: { children: ReactNode }) {
          <Link to="/" aria-label="AFI home"><Brand /></Link>
         <div className="nav-label">WORKSPACE</div>
         <nav className="nav-list">
-          {navigation.slice(0, 5).map((n) => (
+          {navigation.slice(0, 6).map((n) => (
             <Link
               key={n.path}
               to={n.path}
@@ -103,7 +105,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </nav>
         <div className="nav-label">RESEARCH & DEVELOPMENT</div>
         <nav className="nav-list">
-          {navigation.slice(5, 9).map((n) => (
+          {navigation.slice(6, 10).map((n) => (
             <Link
               key={n.path}
               to={n.path}
@@ -118,7 +120,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </nav>
         <div className="nav-label">SYSTEM</div>
         <nav className="nav-list">
-          {navigation.slice(9).map((n) => (
+          {navigation.slice(10).map((n) => (
             <Link
               key={n.path}
               to={n.path}

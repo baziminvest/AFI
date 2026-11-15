@@ -19,6 +19,7 @@ import { Route as MarketsRouteImport } from './routes/markets'
 import { Route as Mt4SimulatorRouteImport } from './routes/mt4-simulator'
 import { Route as Mt5IntegrationRouteImport } from './routes/mt5-integration'
 import { Route as OverviewRouteImport } from './routes/overview'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RiskManagementRouteImport } from './routes/risk-management'
 import { Route as SettingsRouteImport } from './routes/settings'
@@ -75,6 +76,11 @@ const OverviewRoute = OverviewRouteImport.update({
   path: '/overview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/mt4-simulator': typeof Mt4SimulatorRoute
   '/mt5-integration': typeof Mt5IntegrationRoute
   '/overview': typeof OverviewRoute
+  '/portfolio': typeof PortfolioRoute
   '/reset-password': typeof ResetPasswordRoute
   '/risk-management': typeof RiskManagementRoute
   '/settings': typeof SettingsRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/mt4-simulator': typeof Mt4SimulatorRoute
   '/mt5-integration': typeof Mt5IntegrationRoute
   '/overview': typeof OverviewRoute
+  '/portfolio': typeof PortfolioRoute
   '/reset-password': typeof ResetPasswordRoute
   '/risk-management': typeof RiskManagementRoute
   '/settings': typeof SettingsRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/mt4-simulator': typeof Mt4SimulatorRoute
   '/mt5-integration': typeof Mt5IntegrationRoute
   '/overview': typeof OverviewRoute
+  '/portfolio': typeof PortfolioRoute
   '/reset-password': typeof ResetPasswordRoute
   '/risk-management': typeof RiskManagementRoute
   '/settings': typeof SettingsRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/mt4-simulator'
     | '/mt5-integration'
     | '/overview'
+    | '/portfolio'
     | '/reset-password'
     | '/risk-management'
     | '/settings'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/mt4-simulator'
     | '/mt5-integration'
     | '/overview'
+    | '/portfolio'
     | '/reset-password'
     | '/risk-management'
     | '/settings'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/mt4-simulator'
     | '/mt5-integration'
     | '/overview'
+    | '/portfolio'
     | '/reset-password'
     | '/risk-management'
     | '/settings'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   Mt4SimulatorRoute: typeof Mt4SimulatorRoute
   Mt5IntegrationRoute: typeof Mt5IntegrationRoute
   OverviewRoute: typeof OverviewRoute
+  PortfolioRoute: typeof PortfolioRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RiskManagementRoute: typeof RiskManagementRoute
   SettingsRoute: typeof SettingsRoute
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OverviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -346,6 +366,7 @@ const rootRouteChildren: RootRouteChildren = {
   Mt4SimulatorRoute: Mt4SimulatorRoute,
   Mt5IntegrationRoute: Mt5IntegrationRoute,
   OverviewRoute: OverviewRoute,
+  PortfolioRoute: PortfolioRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RiskManagementRoute: RiskManagementRoute,
   SettingsRoute: SettingsRoute,

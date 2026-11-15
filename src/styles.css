@@ -1183,3 +1183,15 @@ h1 {
   .front-footer { padding: 24px; }
   .auth-panel { padding: 28px 24px; }
 }
+.portfolio-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; margin-top: 24px; }
+.portfolio-form { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
+.portfolio-form > button { align-self: flex-start; }
+.portfolio-side { display: flex; flex-direction: column; gap: 20px; }
+.portfolio-side .panel { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field select { width: 100%; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted-foreground); }
+.limit-list { display: grid; gap: 8px; }
+.limit-list div { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 6px; font-size: 13px; }
+.limit-list dt { color: var(--muted-foreground); }
+@media (max-width: 900px) { .portfolio-grid, .form-row { grid-template-columns: 1fr; } }
