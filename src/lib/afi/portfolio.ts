@@ -16,5 +16,5 @@ export function suitableRiskLevel(tolerance: number, capacity: number, horizonYe
 }
 
 export function riskProfile(level: number) {
-  return riskProfiles[Math.max(1, Math.min(6, level)) - 1];
+  return riskProfiles[Math.max(1, Math.min(6, level)) - 1] ?? riskProfiles[2];
 }
