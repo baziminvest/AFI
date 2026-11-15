@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { serviceHealth } from "@/lib/afi/service.functions";
 import type { Bar } from "@/lib/afi/domain";
+import { useRouter } from "@tanstack/react-router";
 const WorkspaceContext = createContext<ReturnType<typeof useWorkspaceState> | null>(null);
 function useWorkspaceState() {
   const [user, setUser] = useState<User | null>(null);
@@ -11,16 +12,30 @@ function useWorkspaceState() {
   const [timeframe, setTimeframe] = useState("H1");
   const [style, setStyle] = useState("All styles");
   const cache = useQueryClient();
+  const router = useRouter();
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (["INITIAL_SESSION", "SIGNED_IN", "SIGNED_OUT", "USER_UPDATED"].includes(event)) {
         setUser(session?.user ?? null);
-        cache.removeQueries({ queryKey: ["afi-private"] });
+        if (event !== "INITIAL_SESSION") {
+          cache.removeQueries({ queryKey: ["afi-private"] });
+          void router.invalidate();
+        }
       }
     });
     return () => data.subscription.unsubscribe();
-  }, [cache]);
+  }, [cache, router]);
+  const profile = useQuery({
+    queryKey: ["afi-private", "profile", user?.id],
+    enabled: Boolean(user),
+    queryFn: async () => {
+      if (!user) return null;
+      const result = await supabase.from("profiles").select("display_name, avatar_url").eq("id", user.id).maybeSingle();
+      if (result.error) throw result.error;
+      return result.data;
+    },
+  });
   const datasets = useQuery({
     queryKey: ["afi-private", "datasets", user?.id],
     enabled: Boolean(user),
@@ -66,6 +81,7 @@ function useWorkspaceState() {
   });
   return {
     user,
+    profile,
     symbol,
     setSymbol,
     timeframe,

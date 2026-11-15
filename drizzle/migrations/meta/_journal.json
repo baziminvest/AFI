@@ -15,6 +15,13 @@
       "when": 1794472175414,
       "tag": "0001_restrict_role_function",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794761328606,
+      "tag": "0002_private_user_profiles",
+      "breakpoints": true
     }
   ]
 }

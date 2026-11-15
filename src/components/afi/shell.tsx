@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   Activity,
   LayoutDashboard,
@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import { useWorkspace } from "./workspace";
 import { supabase } from "@/integrations/supabase/client";
 export const navigation = [
-  { name: "Overview", path: "/", icon: LayoutDashboard },
+  { name: "Overview", path: "/overview", icon: LayoutDashboard },
   { name: "Markets", path: "/markets", icon: ChartNoAxesCombined },
   { name: "Intelligence", path: "/intelligence", icon: BrainCircuit },
   { name: "Signals", path: "/signals", icon: Radio },
@@ -55,14 +55,16 @@ export function Brand() {
         <div className="brand-name">
           AFI<span className="text-primary">.</span>
         </div>
-        <div className="brand-sub">Adaptive Forex Intelligence</div>
+        <div className="brand-sub">Adaptive Financial Intelligence</div>
       </div>
     </div>
   );
 }
 export function Shell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
-  const { user } = useWorkspace();
+   const { user, profile, cache } = useWorkspace();
+   const navigate = useNavigate();
+   const [signingOut, setSigningOut] = useState(false);
   const [open, setOpen] = useState(false);
   const [clock, setClock] = useState("— UTC");
   useEffect(() => {
@@ -83,7 +85,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="terminal">
       <aside className={`sidebar ${open ? "open" : ""}`}>
-        <Brand />
+         <Link to="/" aria-label="AFI home"><Brand /></Link>
         <div className="nav-label">WORKSPACE</div>
         <nav className="nav-list">
           {navigation.slice(0, 5).map((n) => (
@@ -138,9 +140,9 @@ export function Shell({ children }: { children: ReactNode }) {
             Live trade execution is disabled.
           </div>
           <div className="user-row">
-            <div className="avatar">{user ? "R" : "A"}</div>
+             <div className="avatar">{(profile.data?.display_name || "A").slice(0, 1).toUpperCase()}</div>
             <div className="min-w-0 flex-1">
-              <div className="text-[11px]">{user ? "Research account" : "Research workspace"}</div>
+               <div className="text-[11px]">{user ? <Link to="/account">{profile.data?.display_name || "My account"}</Link> : "Research workspace"}</div>
               <div className="mini-sub">{user ? "Authenticated" : "Not signed in"}</div>
             </div>
             {user ? (
@@ -149,7 +151,15 @@ export function Shell({ children }: { children: ReactNode }) {
                 size="icon"
                 aria-label="Sign out"
                 title="Sign out"
-                onClick={() => supabase.auth.signOut()}
+                 disabled={signingOut}
+                 onClick={async () => {
+                   setSigningOut(true);
+                   await cache.cancelQueries();
+                   cache.clear();
+                   const { error } = await supabase.auth.signOut();
+                   setSigningOut(false);
+                   if (!error) await navigate({ to: "/auth", replace: true });
+                 }}
               >
                 <LogOut />
               </Button>
@@ -203,8 +213,7 @@ export function Shell({ children }: { children: ReactNode }) {
           {children}
           <footer className="footer">
             <span>
-              AFI v0.1.0 <span className="mx-2">·</span> Learn the Market. Understand Its Behaviour.
-              Adapt Intelligently.
+              AFI <span className="mx-2">·</span> Intelligence for Better Investment Decisions.
             </span>
             <span>
               <ShieldCheck size={11} /> Intelligence, not investment advice{" "}

@@ -85,13 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AFI — Adaptive Forex Intelligence" },
+      { title: "AFI — Adaptive Financial Intelligence" },
       {
         name: "description",
         content: "Signals-only Forex and Gold market research and adaptive intelligence.",
       },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "AFI — Adaptive Forex Intelligence" },
+      { property: "og:title", content: "AFI — Adaptive Financial Intelligence" },
       {
         property: "og:description",
         content: "Signals-only Forex and Gold market research and adaptive intelligence.",
@@ -135,7 +135,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { pathname } = useLocation();
-  const isAuth = pathname === "/auth" || pathname === "/reset-password";
+  const isAuth = pathname === "/" || pathname === "/auth" || pathname === "/reset-password";
 
   return (
     <QueryClientProvider client={queryClient}>

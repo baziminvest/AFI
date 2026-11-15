@@ -39,3 +39,5 @@ use the editor.
 - Forward authenticated bearer requests only to the configured learning service; both services validate authorization without client-controlled roles.
 - Python candidate artifacts use single-instance durable SQLite until a shared PostgreSQL adapter exists; require a persistent volume to avoid data loss.
 - MetaTrader integrations stay read-only and separately sourced; expose no order-placement functions.
+- Keep the public introduction at / and the research terminal at /overview; this separates visitor onboarding from the dense workspace without removing existing tools.
+- Store editable identity in owner-only profiles and maintain one workspace auth listener; authorization roles never belong in editable profile fields.

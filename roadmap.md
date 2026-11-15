@@ -1,5 +1,12 @@
 # AFI release roadmap
 
+- [x] Elegant AFI financial-intelligence front page and preserved research overview.
+- [x] Improved sign-in, signup, recovery, and private user profile editing.
+- [x] Desktop/mobile presentation, signup controls and invalid recovery verified; ten tests pass.
+- [ ] Confirmed-account sign-in, profile save/readback and signup trigger verification — no auth accounts exist; requires first confirmed signup.
+
+The AFI 2.0 expansion brief informs the new identity; analytical, portfolio and autonomous-simulation expansion remains a separate future release, not part of this front-page/account update.
+
 - [x] Terminal design system and eleven navigable research views.
 - [x] Cloud schema, sign-in controls and atomic historical dataset import.
 - [x] Independent Python CSV, causal feature, chronological training and local persistence foundation; ten tests pass.

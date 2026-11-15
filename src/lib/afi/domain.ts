@@ -117,7 +117,7 @@ export function riskSize(
   return { risk, lots: risk / (stopDistance * pointValue) };
 }
 export function pageHead(title: string) {
-  const description = `${title} — AFI Adaptive Forex Intelligence. Signals-only Forex and Gold market research.`;
+  const description = `${title} — AFI Adaptive Financial Intelligence. Intelligence for Better Investment Decisions. Evidence-led, signals-only market research.`;
   return {
     meta: [
       { title: `${title} | AFI` },

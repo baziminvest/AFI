@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Mail, LockKeyhole } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, LockKeyhole, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { Brand } from "./shell";
+import city from "@/assets/financial-city.jpg";
+import { isRecoveryLink } from "@/lib/afi/account";
 import "@lovable.dev/cloud-auth-js/styles.css";
 export function AuthView() {
   const [mode, setMode] = useState<"login" | "signup" | "reset">("login");
@@ -12,6 +14,8 @@ export function AuthView() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,15 +32,15 @@ export function AuthView() {
         const r = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+           options: { emailRedirectTo: window.location.origin, data: { display_name: name.trim() } },
         });
         if (r.error) throw r.error;
-        if (r.data.session) await navigate({ to: "/" });
+         if (r.data.session) await navigate({ to: "/overview" });
         else setMessage("Check your email to confirm your research account.");
       } else {
         const r = await supabase.auth.signInWithPassword({ email, password });
         if (r.error) throw r.error;
-        await navigate({ to: "/" });
+         await navigate({ to: "/overview" });
       }
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Sign-in could not complete.");
@@ -46,27 +50,30 @@ export function AuthView() {
   }
   async function social(provider: "google" | "lovable") {
     setMessage("");
-    const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) setMessage(result.error.message);
-    else if (!result.redirected) await navigate({ to: "/" });
+    setBusy(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin });
+      if (result.error) setMessage(result.error.message);
+      else if (!result.redirected) await navigate({ to: "/overview" });
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Sign-in could not complete."); }
+    finally { setBusy(false); }
   }
   return (
     <div className="auth-screen">
+      <img src={city} alt="Singapore financial district at dusk" width={1920} height={1024} className="auth-city"/>
       <div className="auth-panel">
-        <Brand />
+        <Link to="/" aria-label="AFI home"><Brand /></Link>
         <h1>
           {mode === "signup"
             ? "Create your research account"
             : mode === "reset"
               ? "Reset your password"
-              : "Welcome to your research workspace"}
+              : "Welcome back."}
         </h1>
-        <p className="subtitle text-center">Adaptive intelligence. Disciplined research.</p>
+        <p className="subtitle text-center">Your perspective. Your research. Your AFI.</p>
         {mode !== "reset" && (
           <div className="auth-social">
-            <Button variant="outline" className="google-button" onClick={() => social("google")}>
+            <Button disabled={busy} variant="outline" className="google-button" onClick={() => social("google")}>
               <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="#4285F4"
@@ -87,7 +94,7 @@ export function AuthView() {
               </svg>
               Continue with Google
             </Button>
-            <Button className="lovable-auth-button" onClick={() => social("lovable")}>
+            <Button disabled={busy} variant="outline" onClick={() => social("lovable")}>
               Continue with Lovable
             </Button>
           </div>
@@ -96,6 +103,7 @@ export function AuthView() {
           {mode === "reset" ? "EMAIL RECOVERY" : "OR CONTINUE WITH EMAIL"}
         </div>
         <form onSubmit={submit} className="auth-form">
+          {mode === "signup" && <div className="form-field"><label htmlFor="auth-name">Display name</label><input id="auth-name" autoComplete="name" required maxLength={80} value={name} onChange={e => setName(e.target.value)} placeholder="Your name"/></div>}
           <div className="form-field">
             <label htmlFor="auth-email">Email address</label>
             <input
@@ -111,19 +119,19 @@ export function AuthView() {
           {mode !== "reset" && (
             <div className="form-field">
               <label htmlFor="auth-password">Password</label>
-              <input
+              <div className="password-field"><input
                 id="auth-password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 minLength={8}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /><Button type="button" variant="ghost" size="icon" aria-label={showPassword ? "Hide password" : "Show password"} title={showPassword ? "Hide password" : "Show password"} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <EyeOff/> : <Eye/>}</Button></div>
             </div>
           )}
           <Button disabled={busy} type="submit">
-            {mode === "signup"
+            {busy ? "Please wait…" : mode === "signup"
               ? "Create account"
               : mode === "reset"
                 ? "Send reset link"
@@ -160,10 +168,11 @@ export function AuthView() {
         </div>
         <div className="text-center mt-4">
           <Link to="/" className="section-link justify-center">
-            Return to AFI overview
+            Return to AFI
             <ArrowRight size={12} />
           </Link>
         </div>
+        <p className="auth-trust"><ShieldCheck size={12}/> Private account · Research only</p>
       </div>
     </div>
   );
@@ -171,6 +180,16 @@ export function AuthView() {
 export function ResetPasswordView() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [allowed, setAllowed] = useState(false);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    const recovery = isRecoveryLink(window.location.hash);
+    if (!recovery) { setMessage("Open the password recovery link from your email to continue."); return; }
+    supabase.auth.getUser().then(({ data, error }) => {
+      setAllowed(Boolean(data.user) && !error);
+      if (!data.user || error) setMessage("This recovery link is invalid or expired. Request a new link.");
+    });
+  }, []);
   return (
     <div className="auth-screen">
       <div className="auth-panel">
@@ -180,8 +199,14 @@ export function ResetPasswordView() {
           className="auth-form"
           onSubmit={async (e) => {
             e.preventDefault();
-            const { error } = await supabase.auth.updateUser({ password });
-            setMessage(error?.message ?? "Password updated. You can return to your workspace.");
+            if (!allowed || busy) return;
+            setBusy(true);
+            try {
+              const { error } = await supabase.auth.updateUser({ password });
+              setMessage(error?.message ?? "Password updated. You can return to your workspace.");
+              if (!error) setAllowed(false);
+            } catch { setMessage("Your password could not be updated. Please try again."); }
+            finally { setBusy(false); }
           }}
         >
           <input
@@ -193,9 +218,9 @@ export function ResetPasswordView() {
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="new-password"
           />
-          <Button type="submit">
+          <Button type="submit" disabled={!allowed || busy}>
             <LockKeyhole />
-            Update password
+            {busy ? "Updating…" : "Update password"}
           </Button>
           <p role="status" className="mini-sub">
             {message}
